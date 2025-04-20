@@ -1,0 +1,52 @@
+<!-- spectral.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; font-family: sans-serif; background: #121212; color: #fff; }
+    header, nav, footer { background: #1f1f1f; padding: 20px; text-align: center; }
+    nav a { color: #fff; text-decoration: none; margin: 0 10px; font-weight: bold; }
+    section { padding: 40px 20px; max-width: 1000px; margin: auto; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+    .video-box { background: #1e1e1e; border-radius: 10px; padding: 15px; transition: 0.3s ease; }
+    .video-box:hover { transform: scale(1.02); }
+    video { width: 100%; border-radius: 10px; }
+    h2 { border-bottom: 2px solid #555; padding-bottom: 10px; }
+  </style>
+  
+</head>
+<body>
+  <header><h1>Spectral Analysis</h1></header>
+ <nav>
+    <a href="index.html">Home</a>
+    <a href="cifar100.html">CIFAR-100</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="spectral.html">Spectral</a>
+    
+    <a href="metrics.html">Metrics</a>
+    <a href="conclusion.html">Conclusion</a>
+    
+
+  </nav>
+
+
+  <section>
+    <h2>Empirical Spectral Density (ESD)</h2>
+    <p>ESD represents the distribution of singular values from layer weight matrices. Using the <code>weightwatcher</code> package, we analyzed these values layer-by-layer to understand spectral properties of the network.</p>
+  </section>
+
+  <section>
+    <h2>Log-Log ESD Dynamics</h2>
+    <video src="video4.mp4" controls autoplay muted loop></video>
+    <p>This video visualizes how the ESD evolves during training. Power law behavior (visible as linearity in the log-log spectrum) is a sign of effective generalization.</p>
+  </section>
+
+  <footer>&copy; 2025 CIFAR100 Neural Network Project</footer>
+</body>
+</html>
+

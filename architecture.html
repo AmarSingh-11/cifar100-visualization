@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+   <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecture & Training</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { margin: 0; font-family: sans-serif; background: #121212; color: #fff; }
+    header, nav, footer { background: #1f1f1f; padding: 20px; text-align: center; }
+    nav a { color: #fff; text-decoration: none; margin: 0 10px; font-weight: bold; }
+    section { padding: 40px 20px; max-width: 1000px; margin: auto; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+    .video-box { background: #1e1e1e; border-radius: 10px; padding: 15px; transition: 0.3s ease; }
+    .video-box:hover { transform: scale(1.02); }
+    video { width: 100%; border-radius: 10px; }
+    h2 { border-bottom: 2px solid #555; padding-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <header><h1>Model Architecture & Training Details</h1></header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="cifar100.html">CIFAR-100</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="spectral.html">Spectral</a>
+    
+    <a href="metrics.html">Metrics</a>
+    <a href="conclusion.html">Conclusion</a>
+    
+
+  </nav>
+
+  <section>
+  <h2>Custom ResNet18 Architecture</h2>
+  <p>We employ a modified <strong>ResNet-18</strong> model specifically adapted for the CIFAR-100 dataset (32×32 images). ResNet is known for its residual connections that allow deeper networks to train effectively without vanishing gradients.</p>
+  <img src="resnet.png" alt="ResNet Architecture" />
+  <ul>
+    <li><strong>Initial Conv Layer:</strong> 64 filters with 3x3 kernel</li>
+    <li><strong>Residual Blocks:</strong> 4 stages (64, 128, 256, 512 filters)</li>
+    <li><strong>Pooling:</strong> Global Average Pooling before FC</li>
+    <li><strong>Output:</strong> Fully Connected layer to 100 softmax units</li>
+  </ul>
+  <div style="margin-top: 20px; padding: 15px; background: #1e1e1e; border-radius: 10px;">
+    <h3>✅ Architecture Used in Training</h3>
+    <p>The training code implements a <strong>custom ResNet-18</strong> model with the following structure:</p>
+    <ul>
+      <li>8 Residual Blocks in total: [2, 2, 2, 2] per stage</li>
+      <li>Uses <code>BasicBlock</code> for each residual block</li>
+      <li>Adapted for CIFAR-100: no max pooling, small 3×3 filters</li>
+      <li>Ends with <code>AvgPool2D</code> + <code>Linear(512, 100)</code></li>
+    </ul>
+    <p>This design is efficient for low-resolution images like those in CIFAR datasets while maintaining depth for effective learning.</p>
+  </div>
+</section>
+
+  <section>
+    <h2>Architecture Code Snippet</h2>
+    <pre><code>class ResNet(nn.Module):
+  def __init__(self):
+    super().__init__()
+    ...
+    self.layer4 = self._make_layer(block, 512, 2, stride=2)
+    self.linear = nn.Linear(512, 100)
+
+  def forward(self, x):
+    x = self.conv1(x)
+    x = self.layer1(x)
+    x = self.layer2(x)
+    x = self.layer3(x)
+    x = self.layer4(x)
+    x = F.avg_pool2d(x, 4)
+    return self.linear(x.view(x.size(0), -1))</code></pre>
+    <p>The code defines the essential pipeline from convolutional feature extraction to class score prediction.</p>
+  </section>
+
+  <section>
+    <h2>Training Configuration</h2>
+    <ul>
+      <li><strong>Loss:</strong> CrossEntropy with Label Smoothing</li>
+      <li><strong>Optimizer:</strong> SGD + Momentum</li>
+      <li><strong>Scheduler:</strong> OneCycleLR for dynamic learning rate</li>
+      <li><strong>Epochs:</strong> 49</li>
+      <li><strong>Batch Size:</strong> 128</li>
+    </ul>
+    <p>Advanced augmentations like <strong>RandAugment</strong>, <strong>Cutout</strong>, and <strong>Mixup</strong> are integrated for regularization and generalization boost.</p>
+  </section>
+
+  <section>
+    <h2>Mixup Data Augmentation</h2>
+    <p><strong>Mixup</strong> is a regularization strategy that linearly blends two input images and their labels, helping the model generalize better by smoothing decision boundaries.</p>
+    <pre><code>x_mix = λ * x1 + (1 - λ) * x2
+y_mix = λ * y1 + (1 - λ) * y2</code></pre>
+    <img src="mixup.png" alt="Mixup Visualization" />
+    <p>Mixup forces the network to perform better interpolation and prevents it from memorizing hard examples.</p>
+  </section>
+
+  <section>
+    <h2>Weight & Bias Distribution Tracking</h2>
+    <p>We visualize normalized histograms of weights and biases across epochs to analyze trends like underfitting, generalization, and overfitting. Layers evolve at different speeds — shallow layers stabilize quickly, while deeper ones continue adjusting longer.</p>
+    <div class="video-grid">
+      <div class="video-box">
+        <video src="video1.mp4" controls autoplay muted loop></video>
+        <p><strong>Video 1 – Bias Evolution</strong></p>
+      </div>
+      <div class="video-box">
+        <video src="video2.mp4" controls autoplay muted loop></video>
+        <p><strong>Video 2 – Weight Evolution</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 CIFAR100 Project – Architecture Analysis</p>
+  </footer>
+</body>
+</html>
+

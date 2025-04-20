@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; font-family: sans-serif; background: #121212; color: #fff; }
+    header, nav, footer { background: #1f1f1f; padding: 20px; text-align: center; }
+    nav a { color: #fff; text-decoration: none; margin: 0 10px; font-weight: bold; }
+    section { padding: 40px 20px; max-width: 1000px; margin: auto; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+    .video-box { background: #1e1e1e; border-radius: 10px; padding: 15px; transition: 0.3s ease; }
+    .video-box:hover { transform: scale(1.02); }
+    video { width: 100%; border-radius: 10px; }
+    h2 { border-bottom: 2px solid #555; padding-bottom: 10px; }
+  </style>
+  
+</head>
+<body>
+  <header><h1>Metrics Evolution Across Epochs</h1></header>
+ <nav>
+    <a href="index.html">Home</a>
+    <a href="cifar100.html">CIFAR-100</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="spectral.html">Spectral</a>
+    
+    <a href="metrics.html">Metrics</a>
+    <a href="conclusion.html">Conclusion</a>
+    
+
+  </nav>
+
+  <section>
+    <h2>Overview</h2>
+    <p>This page connects the most important training metrics: <strong>Accuracy, Loss, and Spectral Alpha values</strong>. These metrics offer complementary views on how well the model is learning and generalizing over time.</p>
+  </section>
+
+  <section class="metrics-grid">
+    <div class="card">
+      <img src="accuracy_curve.png" alt="Accuracy Curve">
+      <h3>Accuracy over Epochs</h3>
+      <p>Training accuracy gradually increases as the model learns. Test accuracy also climbs but may fluctuate—especially in early epochs—indicating generalization adjustment. Both eventually align above 75%, showing convergence.</p>
+    </div>
+
+    <div class="card">
+      <img src="loss_curve.png" alt="Loss Curve">
+      <h3>Loss over Epochs</h3>
+      <p>Loss steadily drops, showing consistent learning. The test loss staying lower than training loss suggests regularization (like Mixup) and label smoothing are helping generalize better, preventing overfitting.</p>
+    </div>
+
+    <div class="card">
+      <img src="alpha.png" alt="Alpha Curve">
+      <h3>Alpha Evolution</h3>
+      <p>Alpha values (from weightwatcher's spectral analysis) decrease rapidly in early epochs, then stabilize between 2–5 for most layers—ideal for generalization. Occasional spikes later hint at overfitting in specific layers.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>How They Are Connected</h2>
+    <ul>
+      <li><strong>Loss ↓</strong> leads to <strong>Accuracy ↑</strong> — lower loss means fewer misclassifications.</li>
+      <li><strong>Stable Alpha</strong> values (between 2 and 5) show healthy generalization and align with the rise in test accuracy.</li>
+      <li>When accuracy improves while alpha stabilizes, we hit the "sweet spot" of training.</li>
+      <li>Fluctuating alpha or stalled accuracy often signal overfitting or learning plateaus.</li>
+    </ul>
+    <p>These three plots together tell a complete story — from underfitting in early epochs to sweet-spot generalization, and eventual risk of overfitting if training extends too long.</p>
+  </section>
+
+  <footer>&copy; 2025 CIFAR100 Training Metrics Visualization</footer>
+</body>
+</html>
+	

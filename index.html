@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { margin: 0; font-family: sans-serif; background: #121212; color: #fff; }
+    header, nav, footer { background: #1f1f1f; padding: 20px; text-align: center; }
+    nav a { color: #fff; text-decoration: none; margin: 0 10px; font-weight: bold; }
+    section { padding: 40px 20px; max-width: 1000px; margin: auto; }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+    .video-box { background: #1e1e1e; border-radius: 10px; padding: 15px; transition: 0.3s ease; }
+    .video-box:hover { transform: scale(1.02); }
+    video { width: 100%; border-radius: 10px; }
+    h2 { border-bottom: 2px solid #555; padding-bottom: 10px; }
+  </style>
+  
+</head>
+<body>
+  <header><h1>CIFAR100 Advanced Visualization and Storytelling</h1></header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="cifar100.html">CIFAR-100</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="spectral.html">Spectral</a>
+    
+    <a href="metrics.html">Metrics</a>
+    <a href="conclusion.html">Conclusion</a>
+    
+
+  </nav>
+
+  <section>
+    <h2>Project Overview</h2>
+    <p><strong>Assignment:</strong> AVST Assignment 2 – March 25, 2025</p>
+    <p>This project investigates the training dynamics and generalization behavior of a deep convolutional neural network on the CIFAR-100 dataset. The two core areas explored are:</p>
+    <ul>
+      <li>Weight and Bias Evolution across epochs</li>
+      <li>Empirical Spectral Density (ESD) and Alpha Power Laws</li>
+    </ul>
+    <p>Using ResNet-18, visualizations, and spectral tools like <code>weightwatcher</code>, we analyze how internal statistics evolve and what they reveal about model health and generalization.</p>
+  </section>
+
+  <section>
+    <h2>Training Metrics</h2>
+    <div class="video-grid">
+      <div><img src="loss_curve.png" alt="Loss Curve"><p>📉 Training loss over time</p></div>
+      <div><img src="accuracy_curve.png" alt="Accuracy Curve"><p>✅ Accuracy on training and validation</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Training Dynamics: Video Explanations</h2>
+    <div class="video-grid">
+
+      <div class="video-box">
+        <video src="video1.mp4" controls autoplay muted loop></video>
+        <p><strong>Video 1 – Bias Evolution per Layer</strong><br>
+        Tracks how <strong>bias distributions</strong> evolve across epochs. Shallow layers stabilize faster; deeper layers adapt more slowly, revealing learning depth.</p>
+      </div>
+
+      <div class="video-box">
+        <video src="video2.mp4" controls autoplay muted loop></video>
+        <p><strong>Video 2 – Weight Evolution per Layer</strong><br>
+        From underfitting to overfitting, this animation shows weight distribution shifts. Gaussian-like histograms during generalization are ideal.</p>
+      </div>
+
+      <div class="video-box">
+        <video src="video3.mp4" controls autoplay muted loop></video>
+        <p><strong>Video 3 – ESD from Singular Values</strong><br>
+        Empirical Spectral Density visualized per layer. Smooth power-law tails signal healthy models; flat or noisy spectra suggest overfitting.</p>
+      </div>
+
+      <div class="video-box">
+        <video src="video4.mp4" controls autoplay muted loop></video>
+        <p><strong>Video 4 – Log-Log Plots & Alpha Tracking</strong><br>
+        Using <code>weightwatcher</code>, we plot ESD curves and track alpha exponent (α). Stable alpha in [2–5] = generalization; spikes = instability.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>&copy; 2025 CIFAR100 Neural Network Analysis</footer>
+</body>
+</html>
